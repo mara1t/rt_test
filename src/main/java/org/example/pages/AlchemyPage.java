@@ -17,18 +17,24 @@ public class AlchemyPage {
 
     private static final Logger logger = LoggerFactory.getLogger(AlchemyPage.class);
 
-    private final By playButton = AppiumBy.xpath("//androidx.compose.ui.platform.e1/android.view.View/android.view.View/android.view.View[2]/android.widget.Button");
-    private final By hintsButton = AppiumBy.xpath("//androidx.compose.ui.platform.e1/android.view.View/android.view.View/android.view.View[1]/android.view.View[22]/android.view.View[1]/android.widget.Button");
-    private final By getHintButton = AppiumBy.xpath("//androidx.compose.ui.platform.e1/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View/android.widget.Button");
+    private final By playButton = AppiumBy.xpath(
+            "//androidx.compose.ui.platform.e1/android.view.View/android.view.View/android.view.View[2]/android.widget.Button");
+    private final By hintsButton = AppiumBy.xpath(
+            "//androidx.compose.ui.platform.e1/android.view.View/android.view.View/android.view.View[1]/android.view.View[22]/android.view.View[1]/android.widget.Button");
+    private final By getHintButton = AppiumBy.xpath(
+            "//androidx.compose.ui.platform.e1/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View/android.widget.Button");
     private final By hintsCount = AppiumBy.id("//android.widget.TextView[starts-with(@text, 'Hints')");
-    private final By hintsText = AppiumBy.xpath("//android.widget.TextView[starts-with(@text, 'Hints') or starts-with(@text, 'Подсказки')]");
+    private final By hintsText = AppiumBy
+            .xpath("//android.widget.TextView[starts-with(@text, 'Hints') or starts-with(@text, 'Подсказки')]");
 
-    // Elements for closing hints window
-    private final By closeHintsWindow = AppiumBy.xpath("//*[contains(@content-desc, 'закрыть') or contains(@text, 'Закрыть') or contains(@resource-id, 'close')]");
+    private final By closeHintsWindow = AppiumBy.xpath(
+            "//*[contains(@content-desc, 'закрыть') or contains(@text, 'Закрыть') or contains(@resource-id, 'close')]");
     private final By backArrowButton = AppiumBy.xpath("//android.widget.ImageButton[@content-desc='Navigate up']");
-    private final By gameAreaButton = AppiumBy.xpath("//*[contains(@resource-id, 'game_area') or contains(@class, 'GameView')]");
+    private final By gameAreaButton = AppiumBy
+            .xpath("//*[contains(@resource-id, 'game_area') or contains(@class, 'GameView')]");
 
-    private final By menuButton = AppiumBy.xpath("//*[contains(@content-desc, 'меню') or contains(@text, 'Меню') or contains(@resource-id, 'menu')]");
+    private final By menuButton = AppiumBy
+            .xpath("//*[contains(@content-desc, 'меню') or contains(@text, 'Меню') or contains(@resource-id, 'menu')]");
     private final By backButton = AppiumBy.xpath("//*[contains(@content-desc, 'назад') or contains(@text, 'Назад')]");
 
     public AlchemyPage clickPlayButton() {
@@ -51,9 +57,6 @@ public class AlchemyPage {
 
         logger.info("Hints section opened");
 
-        // Handle window that appears when opening hints
-        //closeHintsPanel();
-
         return this;
     }
 
@@ -62,10 +65,8 @@ public class AlchemyPage {
             logger.info("Checking for hints window presence");
             Thread.sleep(1000);
 
-            // Try to close hints window using different methods
             boolean closed = false;
 
-            // Method 1: close button
             SelenideElement closeBtn = $(closeHintsWindow);
             if (closeBtn.exists() && closeBtn.isDisplayed()) {
                 logger.info("Close button found, closing hints window");
@@ -74,7 +75,6 @@ public class AlchemyPage {
                 Thread.sleep(1000);
             }
 
-            // Method 2: back arrow
             SelenideElement backArrow = $(backArrowButton);
             if (!closed && backArrow.exists() && backArrow.isDisplayed()) {
                 logger.info("Back arrow found, closing hints window");
@@ -83,7 +83,6 @@ public class AlchemyPage {
                 Thread.sleep(1000);
             }
 
-            // Method 3: click on game area
             SelenideElement gameArea = $(gameAreaButton);
             if (!closed && gameArea.exists() && gameArea.isDisplayed()) {
                 logger.info("Clicking on game area to close hints window");
@@ -92,7 +91,6 @@ public class AlchemyPage {
                 Thread.sleep(1000);
             }
 
-            // Method 4: system back button
             if (!closed) {
                 logger.info("Attempting to close hints window using system back button");
                 pressBackButton();
@@ -156,17 +154,13 @@ public class AlchemyPage {
     public AlchemyPage getRegularHint() {
         logger.info("Getting regular hint");
 
+        $(getHintButton)
+                .shouldBe(Condition.visible, Duration.ofSeconds(10))
+                .click();
 
-            $(getHintButton)
-                    .shouldBe(Condition.visible, Duration.ofSeconds(10))
-                    .click();
-
-            logger.info("Get hint button clicked");
+        logger.info("Get hint button clicked");
 
         closeHintsPanel();
-
-
-
 
         return this;
     }
@@ -210,9 +204,9 @@ public class AlchemyPage {
         boolean isEqual = actualCount == expectedCount;
 
         if (isEqual) {
-            logger.info("✅ Verification passed: hints count equals {}", expectedCount);
+            logger.info("Verification passed: hints count equals {}", expectedCount);
         } else {
-            logger.error("❌ Verification failed: expected {}, got {}", expectedCount, actualCount);
+            logger.error("Verification failed: expected {}, got {}", expectedCount, actualCount);
         }
 
         return isEqual;
@@ -249,7 +243,8 @@ public class AlchemyPage {
 
     public AlchemyPage closePopups() {
         try {
-            SelenideElement closeButton = $(AppiumBy.xpath("//*[contains(@text, 'Закрыть') or contains(@resource-id, 'close')]"));
+            SelenideElement closeButton = $(
+                    AppiumBy.xpath("//*[contains(@text, 'Закрыть') or contains(@resource-id, 'close')]"));
             if (closeButton.exists()) {
                 logger.info("Closing popup window");
                 closeButton.click();

@@ -90,14 +90,11 @@ public class VKVideoPlaybackTest {
         }
     }
 
-
     @Test(priority = 2, description = "Test: video buffering during Wi-Fi interruption")
     public void testVideoBufferingDuringWifiDisconnect() {
         logger.info("========================================");
         logger.info("TEST START: Video buffering during Wi-Fi interruption");
         logger.info("========================================");
-
-        // Включаем Wi-Fi и запускаем видео
 
         vkVideoPage.searchVideo("nature relaxation");
 
@@ -108,15 +105,10 @@ public class VKVideoPlaybackTest {
             logger.info("Disabling Wi-Fi during playback");
             disableWifiViaUI();
             Thread.sleep(3000);
-            // Ждем начала воспроизведения
             boolean playing = vkVideoPage.isVideoPlaying();
             Assert.assertTrue(playing, "Video should start playing");
-            logger.info("✓ Video started playing");
+            logger.info("Video started playing");
 
-            // Отключаем Wi-Fi во время воспроизведения
-
-
-            // Проверяем что видео буферизирует или остановилось
             boolean isBuffering = vkVideoPage.isVideoBuffering();
             boolean hasError = vkVideoPage.isNetworkErrorDisplayed();
             boolean stopped = vkVideoPage.isVideoStopped();
@@ -127,19 +119,16 @@ public class VKVideoPlaybackTest {
 
             Assert.assertTrue(isBuffering || hasError || stopped,
                     "Video should buffer or show error after Wi-Fi disconnect");
-            logger.info("✓ Video entered buffering/error state");
+            logger.info("Video entered buffering/error state");
 
-            // Восстанавливаем Wi-Fi
             logger.info("Re-enabling Wi-Fi");
-            //NetworkUtils.enableWifi();
             Thread.sleep(5000);
 
-            // Проверяем восстановление
             boolean resumed = vkVideoPage.isVideoPlaying();
             Assert.assertTrue(resumed, "Video should resume after Wi-Fi reconnection");
-            logger.info("✓ Video resumed playing after Wi-Fi reconnection");
+            logger.info("Video resumed playing after Wi-Fi reconnection");
 
-            logger.info("✅ TEST SUCCESSFULLY COMPLETED: Video handles Wi-Fi interruption correctly");
+            logger.info("TEST SUCCESSFULLY COMPLETED: Video handles Wi-Fi interruption correctly");
 
         } catch (Exception e) {
             logger.error("Exception during Wi-Fi interruption test", e);

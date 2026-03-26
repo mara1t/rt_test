@@ -42,12 +42,6 @@ public class Config implements WebDriverProvider {
         options.setCapability("autoGrantPermissions", true);
         options.setCapability("isHeadless", false);
 
-//        String appPackage = capabilities.getCapability("appPackage") != null ?
-//                capabilities.getCapability("appPackage").toString() : "com.vk.vkvideo";
-//        options.setAppPackage(appPackage);
-
-        //logger.info("Application package set: {}", appPackage);
-
         try {
             AndroidDriver driver = new AndroidDriver(URI.create(APPIUM_SERVER_URL).toURL(), options);
             logger.info("AndroidDriver successfully created and connected to Appium at {}", APPIUM_SERVER_URL);

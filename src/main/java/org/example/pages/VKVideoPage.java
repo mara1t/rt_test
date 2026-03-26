@@ -62,21 +62,24 @@ public class VKVideoPage {
             for (int i = 0; i < 3; i++) {
                 boolean closedSomething = false;
 
-                SelenideElement closeByIcon = $(AppiumBy.xpath("//*[@content-desc='Закрыть' or contains(@resource-id, 'close')]"));
+                SelenideElement closeByIcon = $(
+                        AppiumBy.xpath("//*[@content-desc='Закрыть' or contains(@resource-id, 'close')]"));
                 if (closeByIcon.exists()) {
                     logger.info("Found popup (close icon), closing it");
                     closeByIcon.click();
                     closedSomething = true;
                 }
 
-                SelenideElement denyButton = $(AppiumBy.xpath("//*[contains(@text, 'Не сейчас') or contains(@text, 'Not now')]"));
+                SelenideElement denyButton = $(
+                        AppiumBy.xpath("//*[contains(@text, 'Не сейчас') or contains(@text, 'Not now')]"));
                 if (denyButton.exists()) {
                     logger.info("Found dialog, clicking 'Not now'");
                     denyButton.click();
                     closedSomething = true;
                 }
 
-                SelenideElement backButton = $(AppiumBy.xpath("//*[contains(@text, 'Назад') or contains(@text, 'Back')]"));
+                SelenideElement backButton = $(
+                        AppiumBy.xpath("//*[contains(@text, 'Назад') or contains(@text, 'Back')]"));
                 if (backButton.exists()) {
                     logger.info("Found dialog, clicking 'Back'");
                     backButton.click();
@@ -292,8 +295,6 @@ public class VKVideoPage {
         driver.executeScript("mobile: performEditorAction", Map.of("action", "search"));
     }
 
-    // Добавьте эти методы в класс VKVideoPage
-
     public boolean isNetworkErrorDisplayed() {
         try {
             By networkError = AppiumBy.xpath("//*[contains(@text, 'No internet connection') or " +
@@ -359,7 +360,6 @@ public class VKVideoPage {
         try {
             logger.info("Checking if video is stopped/paused");
 
-            // Способ 1: Проверка иконки Play (видео на паузе)
             SelenideElement playIcon = $(AppiumBy.xpath(playIconXPath));
             boolean playIconVisible = playIcon.exists() && playIcon.isDisplayed();
 
@@ -368,7 +368,6 @@ public class VKVideoPage {
                 return true;
             }
 
-            // Способ 2: Проверка, что прогресс не меняется в течение 5 секунд
             String initialProgress = getVideoProgress();
             logger.debug("Initial progress: {}", initialProgress);
 
@@ -397,24 +396,18 @@ public class VKVideoPage {
         try {
             AndroidDriver driver = (AndroidDriver) WebDriverRunner.getWebDriver();
 
-            // Открыть настройки
             driver.activateApp("com.android.settings");
             Thread.sleep(2000);
 
-            // Найти и нажать на Wi-Fi
-            //SelenideElement wifiOption = $(AppiumBy.xpath("//*[contains(@text, 'Wi-Fi') or contains(@text, 'Сети')]"));
-            SelenideElement wifiOption = $(AppiumBy.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"com.android.settings:id/recycler_view\"]/android.widget.LinearLayout[1]/android.widget.RelativeLayout"));
+            SelenideElement wifiOption = $(AppiumBy.xpath(
+                    "//androidx.recyclerview.widget.RecyclerView[@resource-id=\"com.android.settings:id/recycler_view\"]/android.widget.LinearLayout[1]/android.widget.RelativeLayout"));
             wifiOption.click();
             Thread.sleep(10000);
 
-            // Нажать на переключатель
-            //SelenideElement wifiSwitch = $(AppiumBy.xpath("//*[contains(@resource-id, 'switch') or contains(@class, 'Switch')]"));
             SelenideElement wifiSwitch = $(AppiumBy.xpath("//android.widget.Switch[@content-desc=\"Wi‑Fi\"]"));
-            //android.widget.Switch[@content-desc="Wi‑Fi"]
             wifiSwitch.click();
             Thread.sleep(5000);
 
-            // Вернуться в приложение
             driver.activateApp("com.vk.vkvideo");
             Thread.sleep(5000);
 

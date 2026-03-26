@@ -68,9 +68,8 @@ public class AlchemyHintsTest {
         alchemyPage.getRegularHint();
         Thread.sleep(3000);
 
-
         int expectedCount = initialHintsCount + 2;
-        logger.info("🎯 Expected hints count after getting hint: {}", expectedCount);
+        logger.info("Expected hints count after getting hint: {}", expectedCount);
 
         logger.info("Step 4: Verify that hints count increased to {}", expectedCount);
         alchemyPage.waitForHintsCount(expectedCount, 10);
@@ -85,7 +84,6 @@ public class AlchemyHintsTest {
                 initialHintsCount, expectedCount);
         logger.info("========================================");
     }
-
 
     @AfterMethod
     public void tearDown() {
