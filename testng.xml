@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Mobile App Tests" parallel="false">
+    <test name="Alchemy Hints Tests">
+        <classes>
+            <class name="org.example.tests.AlchemyHintsTest"/>
+        </classes>
+    </test>
+    <test name="VK Video Tests">
+        <classes>
+            <class name="org.example.tests.VKVideoPlaybackTest"/>
+        </classes>
+    </test>
+
+
+
+</suite>
